@@ -1,0 +1,118 @@
+﻿@model ModernStreaming.Models.Persons
+
+@{
+    Layout = null;
+}
+
+@using System.Web.Optimization;
+@{
+    ViewBag.Title = "view Person";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+
+    @Styles.Render("~/bundles/mainCss")
+    @Scripts.Render("~/bundles/jqueryJS")
+    @Scripts.Render("~/bundles/mainJS")
+
+    <style>
+        html, body, form {
+            min-height: 0 !important;
+            height: auto !important;
+            display: table;
+            width: 100%;
+        }
+
+        .bg-orange {
+            background: #F76266 !important;
+        }
+
+        .color-orange {
+            color: #F76266 !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="popup-content pb-2" id="viewrecord">
+        <!-- title -->
+        <div class="row">
+            <div class="col-12 bg-primary popup-header mb-0">
+                <h2>@Model.person_first_name @Model.person_last_name</h2>
+            </div>
+
+        </div>
+        <!-- title -->
+        <!-- Content -->
+        <div class="row">
+            <table class="table">
+                <tr>
+                    <td style="width:140px" class="bg-light">DOB</td>
+                    <td colspan="3">@Model.person_dob</td>
+                    <td class="bg-light">Mobile No.</td>
+                    <td colspan="3">@Model.person_mobile_number</td>
+
+                </tr>
+                <tr>
+                    <td class="bg-light">Gender</td>
+                    <td colspan="3">@Model.person_gender_name</td>
+                    <td class="bg-light">Status</td>
+                    @if (Model.person_status == 1)
+                    {
+                        <td colspan="3">Active</td>
+                    }
+                    else
+                    {
+                        <td colspan="3">Inactive</td>
+                    }
+                </tr>
+                <tr></tr>
+                @if (Model.person_email != "")
+                {
+                    <tr>
+                        <td class="bg-light">Email ID</td>
+                        <td colspan="3">@Model.person_email</td>
+                    </tr>
+                }
+
+                <tr>
+                    <td class="bg-light">Address</td>
+                    <td colspan="3">@Model.person_address</td>
+                    <td class="bg-light">PinCode</td>
+                    <td colspan="3">@Model.person_pincode</td>
+                </tr>
+                
+                <tr>
+                    <td class="bg-light">No of Direct Dependents</td>
+                    <td colspan="3">@Model.person_no_of_direct_dependents</td>
+                    <td class="bg-light">Pan Card no.</td>
+                    <td colspan="3">@Model.person_pan_card_no</td>
+                </tr>
+                <tr>
+                    <td class="bg-light">Aadhar No.</td>
+                    <td colspan="3">@Model.person_aadhaar_card_no</td>
+                    <td class="bg-light">Union Membership</td>
+                    <td colspan="3">@Model.person_union_membership</td>
+                </tr>
+                <tr>
+                    <td class="bg-light">Bank Name</td>
+                    <td colspan="3">@Model.person_bank_name</td>
+                    <td class="bg-light">Account No.</td>
+                    <td colspan="3">@Model.person_bank_account_no</td>
+                </tr>
+                <tr>
+                    <td class="bg-light">IFSC Code</td>
+                    <td colspan="3">@Model.person_ifsc_code</td>
+                 
+                </tr>        
+
+            </table>
+        </div>
+        <!-- Content -->
+    </div>
+
+
+</body>
+</html>

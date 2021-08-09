@@ -1,0 +1,227 @@
+﻿@model ModernStreaming.Models.Persons
+@using System.Web.Optimization;
+
+
+@{
+    ViewBag.Title = "Add Person";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    @Styles.Render("~/bundles/mainCss")
+    @Scripts.Render("~/bundles/jqueryJS")
+    @Scripts.Render("~/bundles/mainJS")
+    @Scripts.Render("~/bundles/dateJS")
+
+    @Scripts.Render("~/bundles/PageScript")
+    <link href="/Content/daterangepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/daterangepicker.js"></script>
+    <script src="~/Scripts/CommonFunction.js"></script>
+
+    <style>
+        html, body, form {
+            min-height: 0 !important;
+            height: auto !important;
+            display: table;
+            width: 100%;
+        }
+
+        .bg-orange {
+            background: #F76266 !important;
+        }
+
+        .color-orange {
+            color: #F76266 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Section Heading & Breadcrumb -->
+    <div class="popup-content pb-2">
+        <!-- title -->
+        <div class="row">
+            <div class="col-12 bg-primary popup-header">
+                <h2>Add Person</h2>
+            </div>
+        </div>
+        <!-- title -->
+
+
+        @using (Html.BeginForm("Add", "Person", FormMethod.Post, new { @id = "AddForm", @class = "pl-2 pr-2 " }))
+        {
+            <!-- Hidden fields for parameters-->
+
+            @Html.HiddenFor(m => m.status)
+            @Html.HiddenFor(m => m.searchstr)
+
+            <!-- Edit Record -->
+        <div class="row" id="addrecord">
+            <!-- Content -->
+            <div class="col-12 col-sm-6 form-group">
+                <label class="font-weight-bold">First Name<span class="text-danger">*</span></label>
+                @Html.TextBoxFor(model => model.person_first_name, new { @class = "form-control ", @id = "txt_person_first_name" })
+                @Html.ValidationMessageFor(model => model.person_first_name, "", new { @class = "text-danger " })
+            </div>
+            <div class="col-12 col-sm-6 form-group">
+                <label class="font-weight-bold">Last Name<span class="text-danger">*</span></label>
+                @Html.TextBoxFor(model => model.person_last_name, new { @class = "form-control ", @id = "txt_person_last_name" })
+                @Html.ValidationMessageFor(model => model.person_last_name, "", new { @class = "text-danger " })
+            </div>
+            <div class="col-12 col-sm-6 form-group">
+                <label class="font-weight-bold">DOB<span class="text-danger">*</span></label>
+                <div class="input-group">
+
+                    @Html.TextBoxFor(model => model.person_dob, new { @class = "form-control datepicker", @id = "person_dob" })
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+
+                @Html.ValidationMessageFor(model => model.person_dob, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-12 col-sm-6 form-group">
+                @Html.LabelFor(m => m.person_gender, new { @class = "form-label font-weight-bold" })<span class="text-danger">*</span>
+                @Html.DropDownListFor(model => model.person_gender, Model._DDGenderType, "-Select Gender -", new { @id = "person_gender", @class = "form-control no-border " })
+                @Html.ValidationMessageFor(model => model.person_gender, "", new { @class = "text-danger " })
+            </div>
+
+            <div class="col-12 col-sm-6 form-group">
+                @Html.LabelFor(m => m.person_email, new { @class = "form-label font-weight-bold" })
+                @Html.TextBoxFor(model => model.person_email, new { @class = "form-control", @id = "txt_person_email" })
+                @Html.ValidationMessageFor(model => model.person_email, "", new { @class = "text-danger " })
+            </div>
+            <div class="col-12 col-sm-6 form-group">
+                @Html.LabelFor(m => m.person_mobile_number, new { @class = "form-label font-weight-bold" })<span class="text-danger">*</span>
+                @Html.TextBoxFor(model => model.person_mobile_number, new { @maxlength = "10", @class = "form-control", @id = "txt_person_mobile" })
+                @Html.ValidationMessageFor(model => model.person_mobile_number, "", new { @class = "text-danger " })
+            </div>
+            <div class="col-12 col-sm-6 form-group">
+                <label class="font-weight-bold">Address</label><span class="text-danger">*</span>
+                @Html.TextAreaFor(model => model.person_address, new { @class = "form-control", @id = "txt_person_address", @Row = 3 })
+                @Html.ValidationMessageFor(model => model.person_address, "", new { @class = "text-danger " })
+            </div>
+            <div class="col-12 col-sm-6 form-group">
+                <label class="font-weight-bold">Pincode</label><span class="text-danger">*</span>
+                @Html.TextBoxFor(model => model.person_pincode, new { @class = "form-control", @id = "txt_person_address", @type = "number" })
+                @Html.ValidationMessageFor(model => model.person_pincode, "", new { @class = "text-danger " })
+            </div>
+            <div class="col-12 col-sm-6 form-group">
+                <label class="font-weight-bold">No. of Direct Dependents</label><span class="text-danger">*</span>
+                @Html.TextBoxFor(model => model.person_no_of_direct_dependents, new { @class = "form-control", @id = "txt_person_no_of_direct_dependents", @type = "number" })
+                @Html.ValidationMessageFor(model => model.person_no_of_direct_dependents, "", new { @class = "text-danger " })
+            </div>
+            <div class="col-12 col-sm-6 form-group">
+                <label class="font-weight-bold">Pan No.</label><span class="text-danger">*</span>
+                @Html.TextBoxFor(model => model.person_pan_card_no, new { @maxlength = "10", @class = "form-control", @id = "txt_person_pan_card_no" })
+                @Html.ValidationMessageFor(model => model.person_pan_card_no, "", new { @class = "text-danger " })
+            </div>
+            <div class="col-12 col-sm-6 form-group">
+                <label class="font-weight-bold">Aadhar No.</label><span class="text-danger">*</span>
+                @Html.TextBoxFor(model => model.person_aadhaar_card_no, new { @maxlength = "12", @class = "form-control", @id = "txt_person_aadhaar_card_no", @type = "number" })
+                @Html.ValidationMessageFor(model => model.person_aadhaar_card_no, "", new { @class = "text-danger " })
+            </div>
+            <div class="col-12 col-sm-6 form-group">
+                <label class="font-weight-bold">Union Membership</label><span class="text-danger">*</span>
+                @Html.TextBoxFor(model => model.person_union_membership, new { @class = "form-control", @id = "txt_person_union_membership" })
+                @Html.ValidationMessageFor(model => model.person_union_membership, "", new { @class = "text-danger " })
+            </div>
+            <div class="col-12 col-sm-6 form-group">
+                <label class="font-weight-bold">Bank Name</label><span class="text-danger">*</span>
+                @Html.TextBoxFor(model => model.person_bank_name, new { @class = "form-control", @id = "txt_person_bank_name" })
+                @Html.ValidationMessageFor(model => model.person_bank_name, "", new { @class = "text-danger " })
+            </div>
+            <div class="col-12 col-sm-6 form-group">
+                <label class="font-weight-bold">Bank Account no</label><span class="text-danger">*</span>
+                @Html.TextBoxFor(model => model.person_bank_account_no, new { @class = "form-control", @id = "txt_person_bank_account_no" })
+                @Html.ValidationMessageFor(model => model.person_bank_account_no, "", new { @class = "text-danger " })
+            </div>
+            <div class="col-12 col-sm-6 form-group">
+                <label class="font-weight-bold">IFSC Code</label><span class="text-danger">*</span>
+                @Html.TextBoxFor(model => model.person_ifsc_code, new { @class = "form-control", @id = "txt_person_ifsc_code" })
+                @Html.ValidationMessageFor(model => model.person_ifsc_code, "", new { @class = "text-danger " })
+            </div>          
+
+            <div class="col-12 form-group mt-2">
+                <input type="submit" name="Submit" value="Save" class="btn btn-primary" />
+            </div>
+            <!-- Content -->
+        </div>
+            <!-- Edit Record -->
+        }
+    </div>
+
+
+    <!--  Success Failure Message  -->
+    @{
+        if (ViewData["reg_id"] != null)
+        {
+            if (ViewData["reg_id"].ToString() == "1")
+            {
+                <script>
+                    // We have to pass multiple parameter so we cannot use common function
+                    $.confirm({
+                        title: '',
+                        content: "Record saved successfully",
+                        opacity: 0.5,
+                        animation: 'top',
+                        closeAnimation: 'bottom',
+                        confirmButtonClass: 'btn-primary',
+                        cancelButtonClass: '',
+                        cancelButton: false,
+                        theme: 'material',
+                        buttons: {
+                            OK: function () {
+                                parent.location.reload();
+                                parent.jQuery.fancybox.close();
+
+                            }
+                        }
+                    });
+
+                </script>
+            }
+            else if (ViewData["reg_id"].ToString() == "-1")
+            {
+                <script>
+                    confirmbox("Check all Fields", "", "", 0, "", "");
+                </script>
+            }
+            else
+            {
+                <script>
+                    confirmbox("Duplicate Record", "", "", 0, "", "");
+                </script>
+            }
+
+        }
+    }
+
+
+    <script>
+        $(document).ready(function () {
+
+            var strMaxYear = (moment().add(0, 'year').format('YYYY'));
+            var strmaxDate = GetCurrentDateForDatePickerDisplay();
+
+            $('.datepicker').daterangepicker({
+                "singleDatePicker": true,
+                "showDropdowns": true,
+                "autoUpdateInput": true,
+                "maxYear": parseInt(strMaxYear),
+                "maxDate": strmaxDate,
+                locale: {
+                    format: 'DD-MMM-YYYY',
+
+                }
+            }, function (start, end, label) {
+
+            });
+
+        });
+
+    </script>
+</body>
+</html>

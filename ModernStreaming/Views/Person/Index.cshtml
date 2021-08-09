@@ -1,0 +1,102 @@
+﻿@model ModernStreaming.Models.Persons
+@using ModernStreaming.Models;
+@{
+    /**/
+
+    ViewBag.Title = "Persons";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Section Heading & Breadcrumb -->
+<div class="fixed-header">
+    <div class="row align-items-center border-bottom mx-0 mb-3">
+        <ol class="breadcrumb page-header">
+            <li class="breadcrumb-item">
+                <h1>Persons</h1>
+            </li>
+        </ol>
+
+        <div class="text-right ml-auto">
+            <a href="@Url.Action("Add", "Person")" class="fancybox.iframe popup-sm btn btn-danger btn-sm"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        </div>
+
+    </div>
+</div>
+<!-- Section Heading & Breadcrumb -->
+<!-- Search Panel -->
+<div class="box-header">
+    <div class="row align-items-center">
+        <div class="col-sm-7">
+            <ul class="list-inline">
+                @for (int i = 0; i < Model._listStatus.Count; i++)
+                {
+                    if (!Model._listStatus[i].status_name.Contains("(0)"))
+                    {
+                        <li class="list-inline-item bg-light rounded p-2" id="liStatus_@i">
+                            <div class="custom-control custom-checkbox custom-control-inline mr-0">
+                                @Html.CheckBoxFor(model => model._listStatus[i].status_bool, Model._listStatus[i].status_name.Contains("(0") ? (object)new { @disabled = "disabled", @class = "status custom-control-input", id = "customCheck" + (i + 1) } : new { @class = "status custom-control-input", id = "customCheck" + (i + 1) })
+                                <label id="lblCustomeCheck_@(i+1)" class="custom-control-label" for="customCheck@(i + 1)">@Html.DisplayFor(model => model._listStatus[i].status_name)</label>
+                            </div>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+
+        <div class="col-sm-2">
+            <div class="input-group">
+                @Html.DropDownListFor(model => model.person_gender, Model._DDGenderType, "Select Gender", new { @class = "form-control dropdown", @id = "ddl_person_gender", @data_val = "person_gender" })
+            </div>
+        </div>
+
+        <div class="col-sm-3 d-sm-flex text-right">
+            <div class="input-group">
+
+                <input type="text" class="form-control" placeholder="Search" id="txtSearch">
+                <div class="input-group-append">
+                    <button class="btn btn-secondary rounded-right btn-sm" type="button" id="btnSearch"><i class="fa fa-search"></i></button>
+                </div>
+                <button class="btn btn-secondary ml-2 btn-sm" type="button" id="btnRefresh"><i class="fa fa-refresh"></i></button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Search Panel -->
+<!-- Content -->
+<div class="row" id="divgrid">
+    @if (Model._listPersons.Count > 0)
+    {
+        @Html.Partial("~/Views/Person/_Index.cshtml")
+    }
+    else
+    {
+        <div style="text-align:center">There are no records to display.</div>
+    }
+</div>
+<!-- Content -->
+
+<script>
+    $(document).ready(function () {
+        // Key press event of the search on the home page
+        $(document).keypress(function (e) {
+            var key = e.which;
+            // Handling the enter on the local search page
+            if (key == 13 && $("#txtSearch").is(':focus'))  // the enter key code
+            {
+                e.preventDefault();
+                // Get the post url from textbox attribute
+                var _strUrl = $("#txtSearch").attr("data-post-url");
+                // Call the function to proceed for search
+                ProceedSearch(_strUrl);
+            }
+        });
+        // Code to remove the query string after the page is loaded
+        var uri = window.location.toString();
+        if (uri.indexOf("?") > 0) {
+            var clean_uri = uri.substring(0, uri.indexOf("?"));
+            window.history.replaceState({}, document.title, clean_uri);
+        }
+    });
+</script>

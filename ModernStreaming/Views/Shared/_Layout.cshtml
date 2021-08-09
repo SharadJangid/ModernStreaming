@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
+
+    @Styles.Render("~/bundles/mainCss")
+    @Scripts.Render("~/bundles/jqueryJS")
+    @Scripts.Render("~/bundles/mainJS")
+    @Scripts.Render("~/bundles/dateJS")
+    @Scripts.Render("~/bundles/permissionJS")
+
+
+</head>
+<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-xl-show">
+    <!--:: HEADER ::-->
+    <header class="app-header navbar">
+        <div class="admin-header">
+            <div class="d-flex align-items-center" style="width:200px; background:#2b2f83; height:55px">
+                <div class="left">
+                    <button class="navbar-toggler sidebar-toggler d-lg-none" type="button" data-toggle="sidebar-show">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="title">
+                    YFC
+                </div>
+            </div>          
+        </div>
+    </header>
+    <!--:: HEADER ::-->
+    <!--:: BODY ::-->
+    <div class="app-body">
+        <!-- Side Navbar -->
+        <div class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav">
+
+                    @if (@Session["user_usertype_id"].ToString() == "92811529-3336-40D4-BADF-1315A1F56381")
+                    {
+                        <li class="nav-item nav-dropdown" id="liUser">
+                            <a class="nav-link nav-dropdown-toggle" href="#">Users</a>
+                            <ul class="nav-dropdown-items">
+                                <li class="nav-item border-0">
+                                    <a class="nav-link py-2" id="a_employee" href="@Url.Action("Index", "User")"><i class="fa fa-angle-right mr-2"></i>Employees</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    }
+
+                    <li class="nav-item nav-dropdown " id="liPerson">
+                        <a class="nav-link nav-dropdown-toggle" href="#">Person</a>
+                        <ul class="nav-dropdown-items">
+                            <li class="nav-item border-0">
+                                <a class="nav-link py-2" id="a_person" href="@Url.Action("Index", "Person")"><i class="fa fa-angle-right mr-2"></i>Persons</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item border-0" id="liStudentAttendance">
+                        <a class="nav-link py-2" href="@Url.Action("Logout", "UserLogin")">Logout</a>
+                    </li>
+                </ul>
+            </nav>           
+
+            <!--:: Sidebar Footer ::-->
+        </div>
+        <!-- Side Navbar -->
+        <!-- Main Body -->
+        <main class="main">
+            <div class="container-fluid">
+                <div class="animated fadeIn admin-content">
+                    @RenderBody()
+                </div>
+            </div>
+        </main>
+        <!-- Main Body -->
+    </div>
+   
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('nav-link active').removeClass('active');
+            // Check the url and highlight
+
+            if (window.location.href.indexOf('User') != -1) {
+                $('#liUser').addClass("active open");
+            }          
+            else if (window.location.href.indexOf('User') != -1) {
+                $('#liUser').addClass("open");
+                $('#a_employee').addClass("active");
+            }
+            else if (window.location.href.indexOf('Person') != -1) {
+                $('#liPerson').addClass("open");
+                $('#a_employee').addClass("active");
+            }
+           
+        });
+
+    </script>
+
+
+
+</body>
+</html>

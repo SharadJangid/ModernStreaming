@@ -1,0 +1,93 @@
+﻿@model ModernStreaming.Models.UserLogin
+@using System.Web.Optimization;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" />
+
+    @Styles.Render("~/bundles/mainCss")
+    <style>
+        body {
+            background: #e4e5e6;
+        }       
+    </style>
+
+</head>
+
+<body class="page-login app flex-row align-items-center">
+    @using (Html.BeginForm("Login", "UserLogin", FormMethod.Post, new { @class = "d-flex align-items-center" }))
+    {
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-5">
+                    <div class="card-group login-border rounded shadow-sm">
+                       
+                        <div class="card p-3 border-0 rounded-0">
+                            <div class="card-body">
+                               
+                                @if (Model.login_msg != "")
+                                {
+                                    <div class="text-center">
+                                        <label class="text-danger mb-3">@Model.login_msg</label>
+                                    </div>
+
+                                }
+
+                                <div class="form-label-group">
+                                   
+                                    @Html.TextBoxFor(model => model.user_email, new { @placeholder = "Email ID", @id = "txtusername", @type = "text", @class = "form-control" })
+                                    <label for="inputEmail">Email ID</label>
+                                    @Html.ValidationMessageFor(model => model.user_email, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-label-group">
+                                  
+                                    @Html.TextBoxFor(model => model.user_password, new { @placeholder = "Username", @id = "txtpassword", @type = "password", @class = "form-control" })
+                                    <label for="inputPassword">Password</label>
+                                    @Html.ValidationMessageFor(model => model.user_password, "", new { @class = "text-danger" })
+                                </div>
+
+
+                                <div class="row align-items-center ">
+                                    <div class="col-6">
+                                      
+                                        <button type="submit" class="btn btn-primary px-4" value="Submit">LOGIN</button>
+                                    </div>                                  
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    
+    @Scripts.Render("~/bundles/jqueryJS")
+    @Scripts.Render("~/bundles/mainJS")
+    
+    @Scripts.Render("~/bundles/PageScript")
+
+    @Scripts.Render("~/bundles/PageScript")
+
+    <script>
+        $(document).ready(function () {
+
+            $('#txtusername').focus();
+        })
+
+    </script>
+
+   
+</body>
+</html>
+

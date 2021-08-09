@@ -1,0 +1,112 @@
+﻿@model ModernStreaming.Models.Users
+@using System.Web.Optimization;
+
+
+@{
+    ViewBag.Title = "Delete User";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    @Styles.Render("~/bundles/mainCss")
+    @Scripts.Render("~/bundles/jqueryJS")
+    @Scripts.Render("~/bundles/mainJS")
+    @Scripts.Render("~/bundles/dateJS")
+
+    @Scripts.Render("~/bundles/PageScript")
+   
+    <style>
+        html, body, form {
+            min-height: 0 !important;
+            height: 100px !important;
+            display: table;
+            width: 100%;
+        }
+
+        .bg-orange {
+            background: #F76266 !important;
+        }
+
+        .color-orange {
+            color: #F76266 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Section Heading & Breadcrumb -->
+    <div class="popup-content pb-2">
+        <!-- title -->
+        <div class="row">
+            <div class="col-12 bg-primary popup-header">
+                <h2>Are you sure want to delete User - @Model.user_name ?</h2>
+            </div>
+        </div>
+        <!-- title -->
+
+
+        @using (Html.BeginForm("DeleteUser", "User", FormMethod.Post, new { @id = "DeleteForm", @class = "pl-2 pr-2 " }))
+        {
+            <!-- Hidden fields for parameters-->
+
+            @Html.HiddenFor(m => m.Id)
+
+            <!-- Edit Record -->
+            <div class="row" id="deleterecord">
+
+                <div class="col-12 form-group mt-2">
+                    <input type="submit" name="Submit" value="Delete" class="btn btn-primary" />
+                </div>
+                <!-- Content -->
+            </div>
+            <!-- Edit Record -->
+        }
+    </div>
+    <!--  Success Failure Message  -->
+    @{
+        if (ViewData["reg_id"] != null)
+        {
+            if (ViewData["reg_id"].ToString() == "1")
+            {
+                <script>
+                    // We have to pass multiple parameter so we cannot use common function
+                    $.confirm({
+                        title: '',
+                        content: "Record Deleted successfully",
+                        opacity: 0.5,
+                        animation: 'top',
+                        closeAnimation: 'bottom',
+                        confirmButtonClass: 'btn-primary',
+                        cancelButtonClass: '',
+                        cancelButton: false,
+                        theme: 'material',
+                        buttons: {
+                            OK: function () {
+                                parent.location.reload();
+                                parent.jQuery.fancybox.close();
+
+                            }
+                        }
+                    });
+
+                </script>
+            }
+            else if (ViewData["reg_id"].ToString() == "-1")
+            {
+                <script>
+                    confirmbox("Check all Fields", "", "", 0, "", "");
+                </script>
+            }
+            else
+            {
+                <script>
+                    confirmbox("Duplicate Record", "", "", 0, "", "");
+                </script>
+            }
+
+        }
+    }
+</body>
+</html>

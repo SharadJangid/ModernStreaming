@@ -1,0 +1,184 @@
+﻿@model ModernStreaming.Models.Users
+@using System.Web.Optimization;
+
+
+@{
+    ViewBag.Title = "Add User";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    @Styles.Render("~/bundles/mainCss")
+    @Scripts.Render("~/bundles/jqueryJS")
+    @Scripts.Render("~/bundles/mainJS")
+    @Scripts.Render("~/bundles/dateJS")
+
+    @Scripts.Render("~/bundles/PageScript")
+    <link href="/Content/daterangepicker.css" rel="stylesheet" />
+    <script src="~/Scripts/daterangepicker.js"></script>
+    <script src="~/Scripts/CommonFunction.js"></script>
+
+    <style>
+        html, body, form {
+            min-height: 0 !important;
+            height: auto !important;
+            display: table;
+            width: 100%;
+        }
+
+        .bg-orange {
+            background: #F76266 !important;
+        }
+
+        .color-orange {
+            color: #F76266 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Section Heading & Breadcrumb -->
+    <div class="popup-content pb-2">
+        <!-- title -->
+        <div class="row">
+            <div class="col-12 bg-primary popup-header">
+                <h2>Add User</h2>
+            </div>
+        </div>
+        <!-- title -->
+
+
+        @using (Html.BeginForm("Add", "User", FormMethod.Post, new { @id = "AddForm", @class = "pl-2 pr-2 " }))
+        {
+            <!-- Hidden fields for parameters-->
+
+            @Html.HiddenFor(m => m.status)
+            @Html.HiddenFor(m => m.searchstr)
+
+            <!-- Edit Record -->
+        <div class="row" id="addrecord">
+            <!-- Content -->
+            <div class="col-12 col-sm-6 form-group">
+                <label class="font-weight-bold">User Name<span class="text-danger">*</span></label>
+                @Html.TextBoxFor(model => model.user_name, new { @class = "form-control ", @id = "txt_user_name" })
+                @Html.ValidationMessageFor(model => model.user_name, "", new { @class = "text-danger " })
+            </div>
+            <div class="col-12 col-sm-6 form-group">
+                <label class="font-weight-bold">DOB</label>
+                <div class="input-group">
+
+                    @Html.TextBoxFor(model => model.user_dob, new { @class = "form-control datepicker", @id = "user_dob" })
+                    <div class="input-group-append">
+                        <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                    </div>
+                </div>
+
+                @Html.ValidationMessageFor(model => model.user_dob, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-12 col-sm-6 form-group">
+                @Html.LabelFor(m => m.user_utype_id, new { @class = "form-label font-weight-bold" })<span class="text-danger">*</span>
+                @Html.DropDownListFor(model => model.user_utype_id, Model._DDUserType, "-Select User Type-", new { @id = "selprofile_id", @class = "form-control no-border " })
+                @Html.ValidationMessageFor(model => model.user_utype_id, "", new { @class = "text-danger " })
+            </div>
+
+            <div class="col-12 col-sm-6 form-group">
+                @Html.LabelFor(m => m.user_email, new { @class = "form-label font-weight-bold" })<span class="text-danger">*</span>
+                @Html.TextBoxFor(model => model.user_email, new { @class = "form-control", @id = "txt_user_email" })
+                @Html.ValidationMessageFor(model => model.user_email, "", new { @class = "text-danger " })
+            </div>
+            <div class="col-12 col-sm-6 form-group">
+                @Html.LabelFor(m => m.user_mobile, new { @class = "form-label font-weight-bold" })<span class="text-danger">*</span>
+                @Html.TextBoxFor(model => model.user_mobile, new { @maxlength = "10", @class = "form-control num", @id = "txt_user_mobile" })
+                @Html.ValidationMessageFor(model => model.user_mobile, "", new { @class = "text-danger " })
+            </div>
+
+            <div class="col-12 col-sm-6 form-group">
+                @Html.LabelFor(m => m.user_password, new { @class = "form-label font-weight-bold" })<span class="text-danger">*</span>
+                @Html.TextBoxFor(model => model.user_password, new { @class = "form-control", @id = "pwd_user_password", @type = "Password" })
+                @Html.ValidationMessageFor(model => model.user_password, "", new { @class = "text-danger " })
+            </div>
+
+
+            <div class="col-12 form-group mt-2">
+                <input type="submit" name="Submit" value="Save" class="btn btn-primary" />
+            </div>
+            <!-- Content -->
+        </div>
+            <!-- Edit Record -->
+        }
+    </div>
+
+
+    <!--  Success Failure Message  -->
+    @{
+        if (ViewData["reg_id"] != null)
+        {
+            if (ViewData["reg_id"].ToString() == "1")
+            {
+                <script>
+                    // We have to pass multiple parameter so we cannot use common function
+                    $.confirm({
+                        title: '',
+                        content: "Record saved successfully",
+                        opacity: 0.5,
+                        animation: 'top',
+                        closeAnimation: 'bottom',
+                        confirmButtonClass: 'btn-primary',
+                        cancelButtonClass: '',
+                        cancelButton: false,
+                        theme: 'material',
+                        buttons: {
+                            OK: function () {
+                                parent.location.reload();
+                                parent.jQuery.fancybox.close();
+
+                            }
+                        }
+                    });
+
+                </script>
+            }
+            else if (ViewData["reg_id"].ToString() == "-1")
+            {
+                <script>
+                    confirmbox("Check all Fields", "", "", 0, "", "");
+                </script>
+            }
+            else
+            {
+                <script>
+                    confirmbox("Duplicate Record", "", "", 0, "", "");
+                </script>
+            }
+
+        }
+    }
+
+
+    <script>
+        $(document).ready(function () {
+
+            var strMaxYear = (moment().add(0, 'year').format('YYYY'));
+            var strmaxDate = GetCurrentDateForDatePickerDisplay();
+
+            $('.datepicker').daterangepicker({
+                "singleDatePicker": true,
+                "showDropdowns": true,
+                "autoUpdateInput": true,
+                "maxYear": parseInt(strMaxYear),
+                "maxDate": strmaxDate,
+                locale: {
+                    format: 'DD-MMM-YYYY',
+
+                }
+            }, function (start, end, label) {
+
+            });
+
+        });
+
+    </script>
+</body>
+</html>

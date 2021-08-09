@@ -1,0 +1,88 @@
+﻿@model ModernStreaming.Models.Persons
+@using ModernStreaming.Models;
+
+@{
+    ViewBag.Title = "_Index";
+}
+
+@if (Model._listPersons.Count > 0)
+{
+    @* Hidden Fields Counts For Active & Inactive Records *@
+    for (int i = 0; i < Model._listStatus.Count; i++)
+    {
+        <text>
+            @Html.HiddenFor(model => model._listStatus[i].status_name, new { @id = "hdn_status_" + i })
+        </text>
+    }
+
+    <div class="col-12">
+        <table class="table table-sm table-responsive-sm table-striped">
+            <thead>
+                <tr>
+                    @if (Session[SessionVariables.user_usertype_id].ToString() == "92811529-3336-40D4-BADF-1315A1F56381")
+                    {
+                        <th style="width: 30px">Edit</th>
+                        <th style="width: 30px">Delete</th>
+                    }
+                    <th style="width: 100px">Name</th>
+                    <th style="width: 150px;">Gender</th>
+                    <th style="width: 150px;">DOB</th>
+                    <th style="width: 100px">Mobile No.</th>
+                    <th style="width: 100px">Email ID</th>
+                    <th style="width: 100px">Aadhar No.</th>
+                </tr>
+            </thead>
+            <tbody>
+                @* FOR LOOP HERE *@
+                @for (int i = 0; i < Model._listPersons.Count; i++)
+                {
+                <tr class="@( (Model._listPersons[i].person_status == 1 ? "" : "disabled-cell"))">
+                    @if (Session[SessionVariables.user_usertype_id].ToString() == "92811529-3336-40D4-BADF-1315A1F56381")
+                    {
+                        <td>
+                            <a href="@Url.Action("Edit", "Person", new { @aid = Model._listPersons[i].Id, @status = Model.person_status, @searchstr = Model.searchstr })" class="popup-sm fancybox.iframe">
+                                <i class="fa fa-pencil btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Edit"></i>
+                            </a>
+
+                        </td>
+                        <td>
+                            <a href="@Url.Action("DeletePerson", "Person", new { @aid = Model._listPersons[i].Id, @fname =Model._listPersons[i].person_first_name, @lname =Model._listPersons[i].person_last_name})" class="popup-sm fancybox.iframe">
+                                <i class="fa fa-trash btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Delete"></i>
+                            </a>
+
+                        </td>
+                    }
+                    <td>
+                        <a href="@Url.Action("PersonDetail", "Person", new { @aid = Model._listPersons[i].Id})" class="popup-sm fancybox.iframe">
+                            @Model._listPersons[i].person_first_name   @Model._listPersons[i].person_last_name
+                        </a>
+                    </td>
+                    <td>@Model._listPersons[i].person_gender_name</td>
+                    <td>@Model._listPersons[i].person_dob</td>
+                    <td>@Model._listPersons[i].person_mobile_number</td>
+                    <td>@Model._listPersons[i].person_email</td>
+                    <td>@Model._listPersons[i].person_aadhaar_card_no</td>
+                </tr>
+                }
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    @* Hidden Fields Counts For Active & Inactive Records *@
+    for (int i = 0; i < Model._listStatus.Count; i++)
+    {
+        <text>
+            @Html.HiddenFor(model => model._listStatus[i].status_name, new { @id = "hdn_status_" + i })
+        </text>
+    }
+
+}
+else
+{
+    <div style="text-align:center">There are no records to display.</div>
+}
+
